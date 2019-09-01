@@ -3,6 +3,8 @@
 Loghub is a pipeline log, close to [logstash](https://www.elastic.co/products/logstash "Collect, Enrich & Transport Data"). But it's
 written in java for improved stability and performance.
 
+Documentation is in the [wiki](https://github.com/fbacchella/LogHub/wiki).
+
 It received events from external sources, process them and send them.
 
 All components are organized in many pipeline that can be interconnect. A pipeline goes from one receiver source
@@ -14,6 +16,28 @@ Sender source uses decoders that take event and produce bytes message that are t
 
 All of these five kind of operator (Receivers, Senders, Processors, Coders and Decoders) are java classes that can be derived for
 custom usages.
+
+## Availables plugins
+
+| Type | Name | Description |
+| ---- | ---- | --- |
+| input | [udp](https://github.com/fbacchella/LogHub/wiki/Receivers#loghubreceiversudp) | Receive plain UDP messages. Example: syslog udp input |
+| input | [tcp](https://github.com/fbacchella/LogHub/wiki/Receivers#loghubreceiverstcplinesstream) | Listen a TCP port, each line will be mapped to a message. Example: syslog tcp input |
+| input | [snmp-trap](https://github.com/fbacchella/LogHub/wiki/Receivers#loghubreceiverssnmptrap) | Parse an UDP snmp trap message |
+| input | [zmq](https://github.com/fbacchella/LogHub/wiki/Receivers#loghubreceiversudp) | Connect to zmq topic |
+| input | [kafka](https://github.com/fbacchella/LogHub/wiki/Receivers#loghubreceiverskafka) | Subscribe to a kafka topic |
+| input | [http](https://github.com/fbacchella/LogHub/wiki/Receivers#loghubreceivershttp) | Receive HTTP messages |
+| sender | http | Send message to a JSON http endpoint | 
+| sender | elasticsearch | Send message to an ES cluster | 
+| sender | file | Write message to file |
+| sender | ncsa | Send NCSA compliant message |
+| sender | stdout | Write message to stdout, useful for debugging | 
+| sender | udp | Send UDP message, like to another syslog server | 
+| sender | zmq | Send ZMQ message on the topic topic/queue | 
+| decoder | StringCoder | Can be used to convert a syslog message to a string |
+| processor | [grok](https://github.com/fbacchella/LogHub/wiki/Examples) | Apply a grok pattern to the input message |
+
+#  Example
 
 For configuration it uses a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language "Domain specific language") generated
 using [antlr](http://www.antlr.org "ANother Tool for Language Recognition"). It's syntax is a strange mix of logstash configuration files,
